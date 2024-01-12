@@ -3,39 +3,35 @@ import pandas as pd
 import numpy as np
 
 
-st.image("LOGO.PNG")
+st.image("logo.png")
 
-st.title("Este es el foking title")
+st.title("Sistema de Reportes")
 
-st.header("thas the header")
+st.header("Ejecutivo del Estado")
 
-st.write("Este es el textp regular")
+st.sidebar.image("coord.png")
 
-st.subheader("thas the header")
+st.sidebar.title("Reportes")
 
-st.sidebar.title("Opciones")
-
-df=pd.DataFrame(np.random.randn(30,20), columns=('col %d' % i for i in range(20)))
-
-option = st.sidebar.selectbox("Que dashboard?", ('twitter','wallstreetbets','stocktwits','chart','pattern'))
+option = st.sidebar.selectbox("Opciones",('Contratos','Presupuesto','Ordenes de pago','Minutario','Adquisiciones'))
 
 st.header(option)
 
-if option == 'twitter':
-    st.subheader("twitter dashboard logic")
-    st.dataframe(df)
+if option == 'Contratos':
+    st.subheader("Contratos dashboard 2024")
+    
 
-if option == 'wallstreetbets':
-    st.subheader("wallstreetbets dashboard biatch")
+if option == 'Presupuesto':
+    st.subheader("Ejercicio del Presupuesto de Egresos 2024")
 
-if option == 'stocktwits':
-    st.subheader("stocktwits dashboard")
+if option == 'Ordenes de pago':
+    st.subheader("Status de Ordenes de pago")
 
-if option == 'chart':
-    st.subheader("el chart dashboard")
+if option == 'Minutario':
+    st.subheader("Control de Oficios de la Coordinación Ejecutiva de Administración y Finanzas")
 
-if option == 'pattern':
-    st.subheader("this pattern dashboard")
+if option == 'Adquisiciones':
+    st.subheader("Reporte de Adquisiciones 2024")
 
 
 

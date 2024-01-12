@@ -1,6 +1,6 @@
 streamlit
 pandas
-ploty
-psycopy2
-requests
-tweepy
+numpy
+seaborn
+lxml
+
