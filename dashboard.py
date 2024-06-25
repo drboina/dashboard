@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 st.title("Sistema de Reportes del Ejecutivo")
-st.sidebar.image("coord.png")
+st.sidebar.image("logo.png")
 
 option = st.sidebar.selectbox("Opciones",('Licitaciones y Contratos','Presupuesto','Ordenes de pago','Minutario','Adquisiciones'))
 
