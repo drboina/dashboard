@@ -13,14 +13,16 @@ if option == 'Licitaciones y Contratos':
 
     st.subheader("Reporte de Contratos 2024")
     
-    df=pd.read_excel("CONTRATOS_2023.xlsx",index_col=0,dtype={'Partida': str, 'MONTO TOTAL ADJUDICADO': float})  
-
+    df=pd.read_excel("CONTRATOS_2023.xlsx", dtype={'PARTIDA' : str, 'CENTRO GESTOR' : str, 'MONTO TOTAL ADJUDICADO': float})  
+    monto_total=df["MONTO TOTAL ADJUDICADO"].sum()
     df_proc=df.groupby(["TIPO CONTRATO"])["MONTO TOTAL ADJUDICADO"].sum().astype(int).sort_values(ascending=False)
     df_proV=df.groupby(["PROVEEDOR"])["MONTO TOTAL ADJUDICADO"].sum().astype(int).sort_values(ascending=False)
     df_partida=df.groupby(["PARTIDA"])["MONTO TOTAL ADJUDICADO"].sum().astype(int).sort_values(ascending=False)
     df_ua=df.groupby(["UNIDAD"])["MONTO TOTAL ADJUDICADO"].sum().astype(int).sort_values(ascending=False)
 
-    st.dataframe(df)
+    
+    st.text_area(label='Monto total adjudicado:',
+    value=monto_total)
 
     st.markdown ('___________________________________________________')
     st.subheader("Procedimientos de Contrataciòn 2024")
