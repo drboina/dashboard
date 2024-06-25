@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 
 st.title("Sistema de Reportes del Ejecutivo")
 st.sidebar.image("coord.png")
@@ -14,7 +13,7 @@ if option == 'Licitaciones y Contratos':
 
     st.subheader("Reporte de Contratos 2024")
     
-    df=pd.read_excel("CONTRATOS_2023.xlsx")
+    df=pd.read_excel("CONTRATOS_2023.xlsx",engine="xlrd")
 
     df_proc=df.groupby(["TIPO CONTRATO"])["MONTO TOTAL ADJUDICADO"].sum().astype(int).sort_values(ascending=False)
     df_proV=df.groupby(["PROVEEDOR"])["MONTO TOTAL ADJUDICADO"].sum().astype(int).sort_values(ascending=False)
