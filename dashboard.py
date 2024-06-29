@@ -47,7 +47,6 @@ if option == 'Licitaciones y Contratos':
         ax1.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', shadow=True)
         ax1.axis('equal')
         st.pyplot(fig1)
-        plt.show()
         st.text('Figura 1. Porcentaje por tipo de procedimiento')
     
     st.markdown ('___________________________________________________')
