@@ -51,10 +51,9 @@ if option == 'Licitaciones y Contratos':
         ax1.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', shadow=True)
         ax1.axis('equal')
         st.pyplot(fig1)
-        st.text('Figura 1. Porcentaje por tipo de procedimiento')
     
     st.markdown ('___________________________________________________')
-    st.subheader("Gasto por Partida de Contratos 2023",)
+    st.subheader("Gasto por Partida de Contratos",)
     col1,col2 = st.columns(2,gap="medium")
     df_partida=df.groupby(["PARTIDA"])["MONTO TOTAL ADJUDICADO"].sum().sort_values(ascending=False)
 
@@ -75,12 +74,12 @@ if option == 'Licitaciones y Contratos':
     
     st.markdown ('___________________________________________________')
     df_ua=df.groupby(["UNIDAD"])["MONTO TOTAL ADJUDICADO"].sum().astype(int).sort_values(ascending=False)
-    st.subheader("Unidades Administrativas Contratos 2023")
+    st.subheader("Unidades Administrativas Contratos")
     st.dataframe(df_ua)
 
     st.markdown ('___________________________________________________')
     df_proV=df.groupby(["PROVEEDOR"])["MONTO TOTAL ADJUDICADO"].sum().astype(int).sort_values(ascending=False)
-    st.subheader("Proveedores de Contratos 2023")
+    st.subheader("Proveedores de Contratos")
     st.dataframe(df_proV)
 
     st.markdown ('___________________________________________________')
