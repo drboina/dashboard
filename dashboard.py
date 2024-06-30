@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="Reportes Ejecutivo", layout="wide")
 st.header("Sistema de Reportes del Ejecutivo")
-st.sidebar.image("logo.png")
+st.sidebar.image("coord.png")
 
 option = st.sidebar.selectbox("Opciones",('Licitaciones y Contratos','Presupuesto','Ordenes de pago','PAAAS'))
 
