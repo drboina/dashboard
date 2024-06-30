@@ -41,13 +41,12 @@ if option == 'Licitaciones y Contratos':
     side1,side2 = st.columns(2,gap='small')
   
     with side1:
-        st.text('Tabla 1. Monto total por procedimiento')
         st.dataframe(df_proc)
 
     with side2:
         labels = df_proc.index
         sizes = df_proc.values
-        colors = ['#ff9999','#66b3ff','#99ff99','#ffcc99']
+        colors = ['#90060c','#90060c','#99ff99','#e58725','#90060c']
         fig1, ax1 = plt.subplots()
         ax1.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', shadow=True)
         ax1.axis('equal')
@@ -55,36 +54,36 @@ if option == 'Licitaciones y Contratos':
         st.text('Figura 1. Porcentaje por tipo de procedimiento')
     
     st.markdown ('___________________________________________________')
-
-    df_proV=df.groupby(["PROVEEDOR"])["MONTO TOTAL ADJUDICADO"].sum().astype(int).sort_values(ascending=False)
-    st.subheader("Proveedores de Contratos 2023")
-    st.dataframe(df_proV)
-
-    st.markdown ('___________________________________________________')
-
+    st.subheader("Gasto por Partida de Contratos 2023",)
     col1,col2 = st.columns(2,gap="medium")
-    df_partida=df.groupby(["PARTIDA"])["MONTO TOTAL ADJUDICADO"].sum().astype(int).sort_values(ascending=False)
-    st.subheader("Gasto por Partida de Contratos 2023")
+    df_partida=df.groupby(["PARTIDA"])["MONTO TOTAL ADJUDICADO"].sum().sort_values(ascending=False)
 
     with col2:
-        st.dataframe(df_partida)
+        st.table(df_partida)
 
     with col1:
         df_partida=df.groupby(["PARTIDA"])["MONTO TOTAL ADJUDICADO"].sum().astype(int).sort_values(ascending=True)
         partida = list(df_partida.index.astype(str))
         values = df_partida.to_list()
 
-        fig = plt.figure(figsize = (10, 12))
+        fig = plt.figure(figsize = (10, 24))
         plt.barh(partida, values, color ='maroon',)
-        plt.xlabel("Monto adjudicada [M.N]")
-        plt.ylabel("Partidas")
-        plt.title("Monto por Partida")
+        plt.xlabel("Monto adjudicada [M.N]",fontsize=20)
+        plt.yticks(fontsize=20)
+        plt.xticks(fontsize=18)
         st.pyplot(fig)
     
     st.markdown ('___________________________________________________')
     df_ua=df.groupby(["UNIDAD"])["MONTO TOTAL ADJUDICADO"].sum().astype(int).sort_values(ascending=False)
     st.subheader("Unidades Administrativas Contratos 2023")
     st.dataframe(df_ua)
+
+    st.markdown ('___________________________________________________')
+    df_proV=df.groupby(["PROVEEDOR"])["MONTO TOTAL ADJUDICADO"].sum().astype(int).sort_values(ascending=False)
+    st.subheader("Proveedores de Contratos 2023")
+    st.dataframe(df_proV)
+
+    st.markdown ('___________________________________________________')
     
 if option == 'Presupuesto':
     st.subheader("Estado del Ejercicio del Ejecutivo")
