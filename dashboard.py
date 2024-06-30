@@ -18,16 +18,21 @@ if option == 'Licitaciones y Contratos':
 
     no_contratos = len(pd.Series(df['CONTRATO']).value_counts())
     monto_total=float(pd.Series(df["MONTO TOTAL ADJUDICADO"].sum()))
+    no_proveedores = len(pd.Series(df['PROVEEDOR']).value_counts())
     
-    total1,total2 = st.columns(2,gap='small')
+    total1,total2,tatal3 = st.columns(3,gap='medium')
     
-    with total1:
-        st.info('No. Contratos')
+    with total2:
+        st.info('No. de Contratos adjudicados')
         st.metric(label="",value=f"{no_contratos:,.0f}")
 
-    with total2:
+    with total1:
         st.info('Monto total adjudicado:')
         st.metric(label="",value=f"${monto_total:,.0f} M.N.")
+    
+    with tatal3:
+        st.info('No. de Proveedores:')
+        st.metric(label="",value=f"{no_proveedores:,.0f}")
 
     st.markdown ('___________________________________________________')
     
@@ -50,14 +55,31 @@ if option == 'Licitaciones y Contratos':
         st.text('Figura 1. Porcentaje por tipo de procedimiento')
     
     st.markdown ('___________________________________________________')
+
     df_proV=df.groupby(["PROVEEDOR"])["MONTO TOTAL ADJUDICADO"].sum().astype(int).sort_values(ascending=False)
     st.subheader("Proveedores de Contratos 2023")
     st.dataframe(df_proV)
 
     st.markdown ('___________________________________________________')
+
+    col1,col2 = st.columns(2,gap="medium")
     df_partida=df.groupby(["PARTIDA"])["MONTO TOTAL ADJUDICADO"].sum().astype(int).sort_values(ascending=False)
     st.subheader("Gasto por Partida de Contratos 2023")
-    st.dataframe(df_partida)
+
+    with col2:
+        st.dataframe(df_partida)
+
+    with col1:
+        df_partida=df.groupby(["PARTIDA"])["MONTO TOTAL ADJUDICADO"].sum().astype(int).sort_values(ascending=True)
+        partida = list(df_partida.index.astype(str))
+        values = df_partida.to_list()
+
+        fig = plt.figure(figsize = (10, 12))
+        plt.barh(partida, values, color ='maroon',)
+        plt.xlabel("Monto adjudicada [M.N]")
+        plt.ylabel("Partidas")
+        plt.title("Monto por Partida")
+        st.pyplot(fig)
     
     st.markdown ('___________________________________________________')
     df_ua=df.groupby(["UNIDAD"])["MONTO TOTAL ADJUDICADO"].sum().astype(int).sort_values(ascending=False)
