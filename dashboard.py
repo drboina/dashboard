@@ -15,67 +15,84 @@ if option == 'Licitaciones y Contratos':
 
     st.subheader("Reporte de Contratos 2023")
     df=pd.read_excel("CONTRATOS_2023.xlsx", dtype={'PARTIDA' : str, 'CENTRO GESTOR' : str, 'MONTO TOTAL ADJUDICADO': float})  
-
+    df_techo=pd.read_excel("techo_pptal_2023.xlsx", dtype={'PARTIDA' : str, 'CAPITULO' : str, 'CENTRO GESTOR' : str, 'TOTAL': float}) 
     no_contratos = len(pd.Series(df['CONTRATO']).value_counts())
     monto_total=float(pd.Series(df["MONTO TOTAL ADJUDICADO"].sum()))
     no_proveedores = len(pd.Series(df['PROVEEDOR']).value_counts())
+    techo = df_techo['TOTAL'].sum()
     
-    total1,total2,tatal3 = st.columns(3,gap='medium')
+    total1,total2,total3,total4 = st.columns(4,gap='small')
     
-    with total2:
+    with total1:
         st.info('No. de Contratos adjudicados')
         st.metric(label="",value=f"{no_contratos:,.0f}")
 
-    with total1:
+    with total2:
         st.info('Monto total adjudicado:')
         st.metric(label="",value=f"${monto_total:,.0f} M.N.")
     
-    with tatal3:
-        st.info('No. de Proveedores:')
-        st.metric(label="",value=f"{no_proveedores:,.0f}")
+    with total3:
+        st.info('Presupuesto Aprobado 2023:')
+        st.metric(label="",value=f"${techo:,.0f} M.N.")
 
+    with total4:
+        st.info('% Presupuesto Comprometido:')
+        porc_techo = monto_total/techo*100
+        st.metric(label="",value=f"{porc_techo:,.2f}%")
     st.markdown ('___________________________________________________')
     
     df_proc=df.groupby(["TIPO CONTRATO"])["MONTO TOTAL ADJUDICADO"].sum().astype(int).sort_values(ascending=False)    
     st.subheader("Procedimientos de Contratación 2023")
-    side1,side2 = st.columns(2,gap='small')
-  
+   
+    side1,side2 = st.columns(2,gap='large')
     with side1:
         st.dataframe(df_proc)
 
     with side2:
         labels = df_proc.index
         sizes = df_proc.values
-        colors = ['#90060c','#90060c','#99ff99','#e58725','#90060c']
-        fig1, ax1 = plt.subplots()
-        ax1.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', shadow=True)
+        fig1 , ax1 = plt.subplots()
+        ax1.pie(sizes, labels=labels,  autopct='%1.1f%%', shadow=True)
         ax1.axis('equal')
         st.pyplot(fig1)
     
-    st.markdown ('___________________________________________________')
+    st.markdown ('___________________________________________________')        
+            
     st.subheader("Gasto por Partida de Contratos",)
-    col1,col2 = st.columns(2,gap="medium")
-    df_partida=df.groupby(["PARTIDA"])["MONTO TOTAL ADJUDICADO"].sum().sort_values(ascending=False)
 
-    with col2:
-        st.table(df_partida)
-
-    with col1:
-        df_partida=df.groupby(["PARTIDA"])["MONTO TOTAL ADJUDICADO"].sum().astype(int).sort_values(ascending=True)
+    side1,side2 = st.columns(2,gap='small')
+    with side1:
+        df_partida=df.groupby(["PARTIDA"])["MONTO TOTAL ADJUDICADO"].sum().astype(int).sort_values(ascending=False)
         partida = list(df_partida.index.astype(str))
         values = df_partida.to_list()
+        fig, ax2 = plt.subplots()
+        plt.bar(partida, values, color ='maroon',)
+        plt.xlabel("Partida")
+        plt.xticks(font='Arial', fontsize=7)
+        plt.yticks(font='Arial', fontsize=7)
+        ax2.set_xticklabels(partida, rotation=45, ha='right')
 
-        fig = plt.figure(figsize = (10, 24))
-        plt.barh(partida, values, color ='maroon',)
-        plt.xlabel("Monto adjudicada [M.N]",fontsize=20)
-        plt.yticks(fontsize=20)
-        plt.xticks(fontsize=18)
         st.pyplot(fig)
     
+    with side2:
+        st.dataframe(df_partida)
+
     st.markdown ('___________________________________________________')
+
     df_ua=df.groupby(["UNIDAD"])["MONTO TOTAL ADJUDICADO"].sum().astype(int).sort_values(ascending=False)
     st.subheader("Unidades Administrativas Contratos")
-    st.dataframe(df_ua)
+   
+    side1,side2 = st.columns(2,gap='large')
+    with side1:
+        st.dataframe(df_ua)
+
+    with side2:
+        labels = df_ua.index
+        sizes = df_ua.values
+        fig3 , ax1 = plt.subplots()
+        ax1.pie(sizes, labels=labels, autopct='%1.1f%%', shadow=True)
+        ax1.axis('equal')
+        st.pyplot(fig3)
 
     st.markdown ('___________________________________________________')
     df_proV=df.groupby(["PROVEEDOR"])["MONTO TOTAL ADJUDICADO"].sum().astype(int).sort_values(ascending=False)
@@ -87,7 +104,6 @@ if option == 'Licitaciones y Contratos':
 if option == 'Presupuesto':
     st.subheader("Estado del Ejercicio del Ejecutivo")
     
-    df=pd.read_excel("TECHO PPTAL 2024 EJECUTIVO.xlsx")
      
     st.dataframe(df)
      
